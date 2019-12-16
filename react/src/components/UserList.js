@@ -1,20 +1,26 @@
 import React, { Component } from 'react';
 import './User.css';
 import Axios from 'axios';
+import { Button, Modal } from 'react-bootstrap';
 
 class UserList extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            user: [],
-            edituser:true
-        }
+    constructor(props,context) {
+        super(props,context);
+        
+    // this.setShow = this.setShow.bind(this);
+    this.setHide = this.setHide.bind(this);
+    this.state = {
+        user: [],
+        edituser:[],
+        show: false
+        
+    }
 
-     }
+    }
 
-   
-    
+
+
     componentWillMount() {
         Axios.get('http://localhost:4000/api').then(res => {
             this.setState({ user: res.data.data });
@@ -28,21 +34,29 @@ class UserList extends Component {
         });
     }
 
-    userEdit(id) {
-        this.setState({
-            edituser : true
-        })
-        console.log('toggleEditUser',this.state);
-        //var id = { id: id }
-        // Axios.post('http://localhost:4000/api/getuserById',id).then(res => {
-        //       this.componentWillMount();
-        //   });
-    }
+    
+
     toggleEditUser() {
-        console.log('toggleEditUser',this.state);
+        console.log('toggleEditUser', this.state);
+        
+    }
+
+    setShow(uid) {
+        var id = {id:uid};
         this.setState({
-            edituser : true
+          show:true
         });
+        Axios.post('http://localhost:4000/api/getuserById',id).then(res => {
+              this.setState({ edituser: res.data.data });
+              console.log('uu',res.data.data);
+              console.log('uu',this.state.edituser);
+        });
+        
+    }
+    setHide() {
+         this.setState({
+           show:false
+         });
     }
 
     render() {
@@ -53,14 +67,14 @@ class UserList extends Component {
                 <td>{user.product}</td>
                 <td>{user.email}</td>
                 <td>
-                    <button type="buttion" onClick={this.userEdit.bind(this, user._id)} className="btn btn-success">Edit</button>&nbsp;&nbsp;
+                    <button type="buttion" onClick={this.setShow.bind(this,user._id)} className="btn btn-success">Edit</button>&nbsp;&nbsp;
                     <button type="buttion" onClick={this.userDelete.bind(this, user._id)} className="btn btn-danger">Delete</button>
                 </td>
             </tr>
         });
 
         return (
-             
+
             <div className="row mainrow">
                 <div className="col-md-8 usrForm">
                     <table className="table table-bordered">
@@ -77,7 +91,42 @@ class UserList extends Component {
                         </tbody>
                     </table>
                 </div>
+
+            
+                <Modal
+                    show={this.state.show}
+                    onHide={this.setHide}
+                    dialogClassName="modal-90w"
+                    aria-labelledby="example-custom-modal-styling-title"
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title id="example-custom-modal-styling-title">
+                            Edit User
+                    </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                    
+                    <form >
+                        {/* let users = this.state.user.map((user) => {
+                      return 
+                   }); */}
+                         <div className="form-group">
+                             <input type="text" className="form-control"  value={this.state.edituser} ref="name" placeholder="name" id="pwd" />
+                         </div>
+                         <div className="form-group">
+                             <input type="text" className="form-control" ref="product" placeholder="product"  id="prod" />
+                         </div>
+                         <div className="form-group">
+                             <input type="email" className="form-control" ref="email" placeholder="email"  id="email" />
+                         </div>
+                         <button type="button" className="btn btn-success">Submit</button>
+                     </form>
+                    </Modal.Body>
+                </Modal>
+
+
             </div>
+
 
         )
 

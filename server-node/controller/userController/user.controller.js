@@ -115,6 +115,7 @@ module.exports.getuserById = (req,res) => {
                 {
                     response.message= "successfully";
                     response.status= 200;
+                    response.data= data; 
                     res.send(response);
                 }
             });
