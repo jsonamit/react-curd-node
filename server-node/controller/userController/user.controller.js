@@ -133,8 +133,9 @@ module.exports.updateuser = (req,res) => {
     var response={};
         if(req.body.id,req.body.name)
         {
+            console.log('update',req.body.id);
             var user={name:req.body.name,product:req.body.product,email:req.body.email};
-            users.update({_id:req.body.id},{$set:{user}},(error,data)=>{
+            users.updateOne({_id:req.body.id},{$set:user},(error,data)=>{
                 if(error){
                     response.message= "failed";
                     response.status= 404;
