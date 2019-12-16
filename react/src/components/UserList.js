@@ -107,9 +107,7 @@ class UserList extends Component {
                     <Modal.Body>
                     
                     <form >
-                        {/* let users = this.state.user.map((user) => {
-                      return 
-                   }); */}
+                       
                          <div className="form-group">
                              <input type="text" className="form-control"  value={this.state.edituser} ref="name" placeholder="name" id="pwd" />
                          </div>
