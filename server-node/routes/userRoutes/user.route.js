@@ -8,4 +8,6 @@ route.post('/adduser', controller.adduser);
 route.post('/deleteuser', controller.deleteuser);
 route.post('/getuserById', controller.getuserById);
 
+route.post('/updateuser', controller.updateuser);
+
 module.exports = route;

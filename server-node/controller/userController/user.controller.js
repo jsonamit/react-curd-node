@@ -129,3 +129,32 @@ module.exports.getuserById = (req,res) => {
         }
 }
 
+module.exports.updateuser = (req,res) => {
+    var response={};
+        if(req.body.id,req.body.name)
+        {
+            var user={name:req.body.name,product:req.body.product,email:req.body.email};
+            users.update({_id:req.body.id},{$set:{user}},(error,data)=>{
+                if(error){
+                    response.message= "failed";
+                    response.status= 404;
+                    res.send(response);
+                }
+                else
+                {
+                    response.message= "successfully";
+                    response.status= 200;
+                    response.data= data; 
+                    res.send(response);
+                }
+            });
+
+        }
+        else
+        {
+            response.message= "some data missing";
+            response.status= 404;
+            res.send(response);
+        }
+}
+
