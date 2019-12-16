@@ -50,7 +50,7 @@ class User extends Component {
                          <div className="form-group">
                              <input type="email" className="form-control" ref="email" placeholder="email"  id="email" />
                          </div>
-                         <button type="button" onClick={this.userFormData.bind(this)} className="btn btn-default">Submit</button>
+                         <button type="button" onClick={this.userFormData.bind(this)} className="btn btn-success">Submit</button>
                      </form>
                  </div>
              </div>

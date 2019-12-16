@@ -47,8 +47,10 @@ class UserList extends Component {
           show:true
         });
         Axios.post('http://localhost:4000/api/getuserById',id).then(res => {
-              this.setState({ edituser: res.data.data });
-              console.log('uu',res.data.data);
+              this.setState(
+                     { edituser: res.data.data[0] }
+                  );
+            //   console.log('uuss',res.data.data[0]._id);
               console.log('uu',this.state.edituser);
         });
         
@@ -57,6 +59,20 @@ class UserList extends Component {
          this.setState({
            show:false
          });
+    }
+
+    updateUser() {
+        var user = {
+            id: this.state.edituser._id,
+            name: this.refs.name.value,
+            product: this.refs.product.value,
+            email: this.refs.email.value
+        }
+        console.log('update',user);
+        // Axios.post('http://localhost:4000/api/updateuser',user).then(res => {
+        //     this.componentWillMount();
+        //     window.location.reload(false);
+        // });
     }
 
     render() {
@@ -109,15 +125,15 @@ class UserList extends Component {
                     <form >
                        
                          <div className="form-group">
-                             <input type="text" className="form-control"  value={this.state.edituser} ref="name" placeholder="name" id="pwd" />
+                             <input type="text" className="form-control"   ref="name" placeholder="name" id="pwd" />
                          </div>
                          <div className="form-group">
-                             <input type="text" className="form-control" ref="product" placeholder="product"  id="prod" />
+                             <input type="text" className="form-control" value={this.state.edituser.product} ref="product" placeholder="product"  id="prod" />
                          </div>
                          <div className="form-group">
-                             <input type="email" className="form-control" ref="email" placeholder="email"  id="email" />
+                             <input type="email" className="form-control" value={this.state.edituser.email} ref="email" placeholder="email"  id="email" />
                          </div>
-                         <button type="button" className="btn btn-success">Submit</button>
+                         <button type="button" onClick={this.updateUser.bind(this)} className="btn btn-success">Submit</button>
                      </form>
                     </Modal.Body>
                 </Modal>
